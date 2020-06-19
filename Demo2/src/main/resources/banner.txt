@@ -1,0 +1,3 @@
+==============================
+Pparkju Spring Boot ${application.version}
+==============================
