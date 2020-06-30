@@ -1,5 +1,6 @@
 package com.demo2;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.ApplicationArguments;
 import org.springframework.stereotype.Component;
 import org.springframework.boot.ApplicationRunner;
@@ -11,9 +12,14 @@ import org.springframework.boot.ApplicationRunner;
 
 @Component
 class AppRunner implements ApplicationRunner {
+
+    @Autowired
+    private String hello;
+
     @Override
     public void run(ApplicationArguments args) throws Exception {
-        System.out.println("foo: " + args.containsOption("foo"));
-        System.out.println("bar: " + args.containsOption("bar"));
+        System.out.println("==========================");
+        System.out.println(hello);
+        System.out.println("==========================");
     }
 }
