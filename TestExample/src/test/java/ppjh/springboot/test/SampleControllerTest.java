@@ -1,11 +1,18 @@
 package ppjh.springboot.test;
 
+import org.junit.Rule;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.mockito.Mock;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.autoconfigure.json.JsonTest;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
+import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.boot.test.json.JacksonTester;
 import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.boot.test.system.OutputCaptureExtension;
+import org.springframework.boot.test.system.OutputCaptureRule;
 import org.springframework.boot.test.web.client.TestRestTemplate;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
@@ -19,22 +26,27 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 
 @RunWith(SpringRunner.class)
-@SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
+@WebMvcTest(SampleController.class)
 public class SampleControllerTest {
 
-    @Autowired
-    TestRestTemplate testRestTemplate;
+    @Rule
+    public OutputCaptureRule outputCapture = new OutputCaptureRule();
 
     @MockBean
-    SampleService mockSampleService;
+    SampleService sampleService;
+
+    @Autowired
+    MockMvc mockMvc;
 
     @Test
     public void hello() {
         try {
-            when(mockSampleService.getName()).thenReturn("juhyun");
+            when(sampleService.getName()).thenReturn("juhyun");
 
-            String result = testRestTemplate.getForObject("/hello", String.class);
-            assertThat(result);
+            mockMvc.perform(get("/hello"))
+                    .andExpect(content().string("hello juhyun"));
+
+            assertThat(outputCapture.toString()).contains("holoman").contains("skip");
         } catch (Exception e) {
             e.printStackTrace();
         }
