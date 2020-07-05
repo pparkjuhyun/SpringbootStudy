@@ -8,6 +8,7 @@ import org.springframework.http.MediaType;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
 
+import static com.sun.deploy.uitoolkit.impl.awt.AWTClientPrintHelper.print;
 import static org.hamcrest.Matchers.equalTo;
 import static org.hamcrest.Matchers.is;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
@@ -39,5 +40,19 @@ public class UserControllerTest {
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.username", is(equalTo("juhyun"))))
                 .andExpect(jsonPath("$.password", is(equalTo("1234"))));
+    }
+
+    @Test
+    public void createUser_XML() throws Exception {
+        String userJson = "{\"username\":\"juhyun\",\"password\":\"1234\"}";
+
+        mockMvc.perform(post("/user/create")
+                .contentType(MediaType.APPLICATION_JSON_UTF8)
+                .accept(MediaType.APPLICATION_XML)
+                .content(userJson))
+//                .andDo(print()) //에러일 경우 자동으로 삽입되어 로그가 찍힘
+                .andExpect(status().isOk())
+                .andExpect(xpath("/User/username").string("juhyun"))
+                .andExpect(xpath("/User/password").string("1234"));
     }
 }
