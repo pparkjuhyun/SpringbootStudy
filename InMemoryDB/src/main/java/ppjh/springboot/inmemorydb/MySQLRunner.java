@@ -11,7 +11,7 @@ import java.sql.Connection;
 import java.sql.Statement;
 
 @Component
-public class H2Runner implements ApplicationRunner {
+public class MySQLRunner implements ApplicationRunner {
 
     @Autowired
     DataSource dataSource;
@@ -24,6 +24,7 @@ public class H2Runner implements ApplicationRunner {
         //try catch로 묶고
         //예외 처리 시 rollback 로직은 기본
         try(Connection connection = dataSource.getConnection()) {
+            System.out.println(dataSource.getClass());
             System.out.println(connection.getMetaData().getURL());
             System.out.println(connection.getMetaData().getUserName());
 
