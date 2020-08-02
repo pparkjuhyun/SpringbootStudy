@@ -31,6 +31,10 @@ public class MemberService {
         return member.getId();
     }
 
+    /**
+    * validate input data
+    * if member who has same name is exist, throw exception
+    */
     private void validateDuplicateMember(Member member) {
         memberRepository.findByName(member.getName())
                 .ifPresent(m -> {
