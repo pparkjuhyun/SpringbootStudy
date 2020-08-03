@@ -1,5 +1,7 @@
 package ppjh.springboot.hello.service;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 import ppjh.springboot.hello.domain.Member;
 import ppjh.springboot.hello.repository.MemberRepository;
 import ppjh.springboot.hello.repository.MemoryMemberRepository;
@@ -11,10 +13,12 @@ import java.util.Optional;
  * implements Business Logic
  * naming must be business like
  */
+@Service
 public class MemberService {
 
     private final MemberRepository memberRepository;
 
+    @Autowired
     public MemberService(MemberRepository memberRepository) {
         this.memberRepository = memberRepository;
     }
