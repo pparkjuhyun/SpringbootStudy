@@ -13,12 +13,10 @@ import java.util.Optional;
  * implements Business Logic
  * naming must be business like
  */
-@Service
 public class MemberService {
 
     private final MemberRepository memberRepository;
 
-    @Autowired
     public MemberService(MemberRepository memberRepository) {
         this.memberRepository = memberRepository;
     }
